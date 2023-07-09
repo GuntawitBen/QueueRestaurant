@@ -19,7 +19,7 @@ int Queue::getSize(){
 }
 
 bool Queue::isEmpty() {
-  return size == 1;
+  return size == 0;
 }
 
 Queue::Queue(){

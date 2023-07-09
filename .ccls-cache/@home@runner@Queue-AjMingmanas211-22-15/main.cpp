@@ -4,34 +4,37 @@
 using namespace std;
 
 void printMenu();
-void getOrder(int& orderNumber, int& quantity);
 void payment(Queue&);
 
-int main() {
+int main(int argc, char* argv[]) {
   Queue order;
-  int orderNumber, quantity;
   
   cout << "Welcome to Queue Restaurant!" << endl;
   printMenu();
-  
+
   int count = 0;
-  getOrder(orderNumber, quantity);
-  order.enqueue(orderNumber, quantity);
-  do {
-    if (order.isEmpty()){
-      getOrder(orderNumber, quantity);
-      order.enqueue(orderNumber, quantity);
-    } 
-    else { //pay money
-      payment(order);
-      count++;
+  for (int i = 1; i < argc; i += 2) {
+  static int number = 0;
+    number ++;
+    int orderNumber = atoi(argv[i]);
+    cout << "========================="<< endl;
+    cout << "Customer number " << number << " order is " << orderNumber << endl;
+    int quantity = atoi(argv[i + 1]);
+    cout << "quantity " << quantity << endl;
+    order.enqueue(orderNumber, quantity);
+    count++;
+    if (!order.isEmpty() && count>=2){
+    payment(order);
     }
-  } while (count < 5);
+    else {
+    continue;
+    }
+  }
   
   cout << "========================="<< endl;
   cout << "The restaurant is closed!" << endl;
   int size = order.getSize();
-  cout << "There are " << size << " people left in the queue" << endl;
+  cout << "There is " << size << " person left in the queue" << endl;
   cout << "========================="<< endl;
   return 0;
 }
@@ -41,29 +44,9 @@ void printMenu() {
   cout << " 1. Chicken         200 " << endl;
   cout << " 2. Fries           100 " << endl;
   cout << " 3. Coke             50 " << endl;
-  cout << "========================="<< endl;
 }
 
-void getOrder(int& orderNumber, int& quantity) {
-  static int number = 0;
-  ++number;
-  cout << "========================="<< endl;
-  cout << "Customer number " << number << endl;  
-  do {
-    cout << "What would you like to have? : ";
-    cin >> orderNumber;
-    if (orderNumber > 3) {
-      cout << "Come on! That's not in the menu!" << endl;
-    }
-    else {
-      break;
-    }
-  } while (true);
 
-  
-  cout << "How many? : ";
-  cin >> quantity;
-}
 
 void payment(Queue& order) {
   static int number = 0;
